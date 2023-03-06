@@ -4,8 +4,10 @@ import numpy as np
 ON = 255
 
 # STILL LIFES
-block_array = np.array([[1, 1], 
-                        [1, 1]])
+block_array = np.array([[0, 0, 0, 0],
+                        [0, 1, 1, 0], 
+                        [0, 1, 1, 0],
+                        [0, 0, 0, 0]])
 
 beehive_array = np.array([ [0, 1, 1, 0], 
                            [1, 0, 0, 1], 
@@ -27,11 +29,13 @@ tub_array = np.array([ [0, 1, 0],
 
 # OSCILATORS
 blinker_arrays = [
-    np.array([ [1], 
-               [1], 
-               [1]]),
+    np.array([ [0, 1, 0], 
+               [0, 1, 0], 
+               [0, 1, 0]]),
 
-    np.array([ [1, 1, 1]])
+    np.array([ [0, 0, 0],
+               [1, 1, 1],
+               [0, 0, 0]])
 ]
 toad_arrays = [
     np.array([ [0, 0, 1, 0], 
