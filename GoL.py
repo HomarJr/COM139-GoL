@@ -74,7 +74,7 @@ def report_current_generation(grid):
         
 
 def update(frameNum, img, grid):
-    global generations, current_generation, log
+    global generations, current_generation, log, disable_report
     
     # Stop condition for the simulation
     if current_generation == generations: return
@@ -96,7 +96,7 @@ def update(frameNum, img, grid):
     # Generate report for current generation
     current_generation += 1
     if log: print(f'\n\n--- GENERATION {current_generation} ---')
-    report_current_generation(next_grid)
+    if not disable_report: report_current_generation(next_grid)
 
 
     # Update data
@@ -124,7 +124,7 @@ def read_input_file(path):
 
 
 def main():
-    global generations, current_generation, report_file_path, log
+    global generations, current_generation, report_file_path, log, disable_report
 
     # Parse CLI arguments
     parser = argparse.ArgumentParser(
@@ -134,20 +134,23 @@ def main():
     parser.add_argument('--configuration_file', help='path to configuration input file', type=str, required=True)
     parser.add_argument('--animation_interval', help='delay between animation frames in milliseconds.', default=50, type=int, required=False)
     parser.add_argument('--log', help='use to enable logging', action='store_true', required=False)
+    parser.add_argument('--disable_report', help='use to disable report generation', action='store_true', required=False)
     args = parser.parse_args()
     log = args.log
+    disable_report = args.disable_report
 
 
     # Read input file configurations and do initial set up
     grid, generations = read_input_file(args.configuration_file)
 
-    start = datetime.now()
-    report_header = f"Simulation at {start.strftime('%Y-%m-%d')}\nUniverse size {grid.shape[0]} x {grid.shape[1]}"
-    report_file_path = f"Simulation Report - {start.strftime('%Y-%m-%d %H-%M')}"
-    with open(f'{report_file_path}.txt', 'w+') as report: report.write(report_header)
+    if not disable_report:
+        start = datetime.now()
+        report_header = f"Simulation at {start.strftime('%Y-%m-%d')}\nUniverse size {grid.shape[0]} x {grid.shape[1]}"
+        report_file_path = f"Simulation Report - {start.strftime('%Y-%m-%d %H-%M')}"
+        with open(f'{report_file_path}.txt', 'w+') as report: report.write(report_header)
 
     current_generation = 0
-    report_current_generation(grid)
+    if not disable_report: report_current_generation(grid)
 
 
     # set up animation
