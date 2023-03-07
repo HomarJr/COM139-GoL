@@ -11,4 +11,4 @@ for file in files:
         reader = csv.reader(input_file)
         for y, row in enumerate(reader):
             for x, cell in enumerate(row):
-                if cell == '1': output_file.write(f"{x},{y}\n")
+                if cell == '1': output_file.write(f"{x} {y}\n")
